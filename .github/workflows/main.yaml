@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
   id-token: write
-  
+
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
@@ -56,8 +56,7 @@ jobs:
       - name: Configurar credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::828536209625:role/GitHubActionsECSRole
           aws-region: us-east-1
 
       - name: Login no ECR

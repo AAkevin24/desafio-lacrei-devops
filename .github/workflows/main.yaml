@@ -92,7 +92,7 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-definition-staging.outputs.task-definition }}
-          service: 'lacrei-saude-staging'
+          service: 'lacrei-saude-staging-task-service-1t2tzu2n'
           cluster: 'lacrei-saude-staging'
           wait-for-service-stability: true
 

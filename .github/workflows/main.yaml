@@ -79,13 +79,21 @@ jobs:
           # Define a URL da imagem como uma saída da etapa.
           echo "ecr_image_url=$ECR_IMAGE_URL" >> $GITHUB_OUTPUT
 
+      - name: Registrar nova Task Definition (Staging)
+        id: register-task-staging
+        uses: aws-actions/amazon-ecs-register-task-definition@v1
+        with:
+          task-definition: task-definition-staging.json
+          container-name: lacrei-saude-app
+          image: ${{ steps.build-and-push-staging.outputs.ecr_image_url }}
+
       - name: Deploy para o ECS (Staging)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: task-definition-staging.json
+          task-definition: ${{ steps.register-task-staging.outputs.task-definition-arn }}
           service: 'lacrei-saude-staging'
           cluster: 'lacrei-saude-staging'
-          image: ${{ steps.build-and-push-staging.outputs.ecr_image_url }}
+          wait-for-service-stability: true
 
   deploy_to_production:
     needs: deploy_to_staging
@@ -100,9 +108,8 @@ jobs:
       - name: Configurar credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::828536209625:role/GitHubActionsECSRole
+          aws-region: us-east-1
 
       - name: Login no ECR
         id: login-ecr
@@ -120,10 +127,18 @@ jobs:
           docker push $ECR_IMAGE_URL
           echo "ecr_image_url=$ECR_IMAGE_URL" >> $GITHUB_OUTPUT
 
+      - name: Registrar nova Task Definition (Production)
+        id: register-task-prod
+        uses: aws-actions/amazon-ecs-register-task-definition@v1
+        with:
+          task-definition: task-definition-production.json
+          container-name: lacrei-saude-app
+          image: ${{ steps.build-and-push-production.outputs.ecr_image_url }}
+
       - name: Deploy para o ECS (Produção)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: task-definition-production.json
+          task-definition: ${{ steps.register-task-production.outputs.task-definition-arn }}
           service: 'lacrei-saude-prod'
           cluster: 'lacrei-saude-prod'
-          image: ${{ steps.build-and-push-prod.outputs.ecr_image_url }}
+          wait-for-service-stability: true

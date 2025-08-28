@@ -85,7 +85,7 @@ jobs:
         with:
           task-definition: task-definition-staging.json
           container-name: lacrei-saude-staging
-          image: ${{ steps.build-and-push-staging.outputs.image }}
+          image: ${{ steps.build-and-push-staging.outputs.ecr_image_url }}
 
 
       - name: Deploy para o ECS (Staging)

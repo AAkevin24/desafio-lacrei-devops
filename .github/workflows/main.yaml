@@ -79,8 +79,17 @@ jobs:
           # Define a URL da imagem como uma saída da etapa.
           echo "ecr_image_url=$ECR_IMAGE_URL" >> $GITHUB_OUTPUT
 
+      - name: Adicionando nova imagem no Amazon ECS task definition
+        id: task-definition-staging
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition-staging.json
+          container-name: lacrei-saude-staging
+          image: ${{ steps.build-and-push-staging.outputs.image }}
+
+
       - name: Deploy para o ECS (Staging)
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.register-task-staging.outputs.task-definition-arn }}
           service: 'lacrei-saude-staging'

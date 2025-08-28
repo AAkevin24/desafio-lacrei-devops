@@ -1,0 +1,48 @@
+{
+  "family": "lacrei-saude-staging-task",
+  
+  "networkMode": "awsvpc",
+
+  "containerDefinitions": [
+    {
+      "name": "lacrei-saude-app",
+
+      "image": "REPLACE_ME_WITH_ECR_IMAGE_URL",
+
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/lacrei-saude-staging-app-logs",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+
+      "cpu": 256,
+      "memory": 512,
+
+      "essential": true
+    }
+  ],
+
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+
+
+  "cpu": "256",
+  "memory": "512",
+
+  "executionRoleArn": "arn:aws:iam::828536209625:role/ecsTaskExecutionRole",
+
+
+  "taskRoleArn": "arn:aws:iam::828536209625:role/ecsTaskRole"
+}

@@ -91,7 +91,7 @@ jobs:
       - name: Deploy para o ECS (Staging)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.register-task-staging.outputs.task-definition-arn }}
+          task-definition: ${{ steps.render-app-container.outputs.task-definition }}
           service: 'lacrei-saude-staging'
           cluster: 'lacrei-saude-staging'
           wait-for-service-stability: true

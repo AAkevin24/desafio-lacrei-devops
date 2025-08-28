@@ -55,8 +55,9 @@ jobs:
       - name: Configurar credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::828536209625:role/GitHubActionsECSRole
           aws-region: us-east-1
+          role-to-assume: arn:aws:iam::828536209625:role/GitHubActionsECSRole
+          
 
       - name: Login no ECR
         id: login-ecr

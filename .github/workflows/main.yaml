@@ -139,7 +139,7 @@ jobs:
       - name: Deploy para o ECS (Produção)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.register-task-production.outputs.task-definition-arn }}
+          task-definition: ${{ steps.task-definition-production.outputs.task-definition }}
           service: 'lacrei-saude-prod'
           cluster: 'lacrei-saude-prod'
           wait-for-service-stability: true

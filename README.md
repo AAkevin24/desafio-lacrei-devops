@@ -26,23 +26,6 @@ A aplicação foi containerizada com o Dockerfile para garantir um ambiente de e
 ✅ 3. Pipeline CI/CD Completo (GitHub Actions)
 O pipeline de CI/CD é gerenciado pelo GitHub Actions e é acionado por pushes nas branches main e staging.
 
-Diagrama de Fluxo de CI/CD:
-graph TD
-    A[Início: Push para a branch main] --> B{Build e Teste da Imagem};
-    B -->|Sucesso| C[Login no AWS ECR];
-    C --> D[Construir e Enviar Imagem Docker para o ECR];
-    D --> E[Registrar Nova Task Definition];
-    E --> F[Atualizar o Serviço ECS<br>(Deploy para Staging)];
-    F --> |Sucesso| G{Aprovação Manual<br>Deploy de Produção};
-    G -->|Aprovar| H[Login no AWS ECR];
-    H --> I[Construir e Enviar Imagem<br>para o ECR de Produção];
-    I --> J[Registrar Nova Task Definition];
-    J --> K[Atualizar o Serviço ECS<br>(Deploy para Produção)];
-    K --> L[Fim: Deploy Concluído];
-    B -->|Falha| M[Notificação de Falha];
-    F -->|Falha| M;
-    K -->|Falha| M;
-
 Descrição do Fluxo:
 
 Acionamento: O workflow é iniciado em cada push para a branch main.

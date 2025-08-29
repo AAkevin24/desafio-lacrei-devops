@@ -42,7 +42,6 @@
   "cpu": "512",
   "memory": "1024",
 
-  "executionRoleArn": "arn:aws:iam::[SEU_ID_DA_CONTA]:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::828536209625:role/ecs_execution_role"
 
-  "taskRoleArn": "arn:aws:iam::[SEU_ID_DA_CONTA]:role/ecsTaskRole"
 }

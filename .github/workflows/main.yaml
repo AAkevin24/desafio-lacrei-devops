@@ -128,13 +128,13 @@ jobs:
           docker push $ECR_IMAGE_URL
           echo "ecr_image_url=$ECR_IMAGE_URL" >> $GITHUB_OUTPUT
 
-      - name: Registrar nova Task Definition (Production)
-        id: register-task-prod
-        uses: aws-actions/amazon-ecs-register-task-definition@v1
+      - name: Adicionando nova imagem no Amazon ECS task definition
+        id: task-definition-production
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition-production.json
           container-name: lacrei-saude-app
-          image: ${{ steps.build-and-push-production.outputs.ecr_image_url }}
+          image: ${{ steps.build-and-push-prod.outputs.ecr_image_url }}
 
       - name: Deploy para o ECS (Produção)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

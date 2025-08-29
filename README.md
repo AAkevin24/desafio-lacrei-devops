@@ -99,5 +99,3 @@ Fluxo com branch main: A decisão de ter o deploy para staging no push para a ma
 Automação vs. Manual: O deploy para produção é intencionalmente semi-automatizado (com aprovação manual) para que uma pessoa da equipe possa validar o staging e dar a aprovação final.
 
 Uso de GitHub Secrets: Para este desafio, usamos o GitHub Secrets, mas a decisão técnica ideal para evitar credenciais de longo prazo seria usar o OIDC do GitHub Actions com roles de IAM.
-
-.

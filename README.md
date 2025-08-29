@@ -2,7 +2,7 @@ Desafio DevOps - Lacrei Saúde
 Este documento detalha a implementação de um pipeline de CI/CD seguro, escalável e eficiente, conforme os requisitos do desafio da Lacrei Saúde. Ele descreve a arquitetura, o fluxo de trabalho, a abordagem de segurança e a observabilidade, além de fornecer a documentação para cada etapa.
 
 ✅ 1. Setup de Ambientes
-Utilizamos a AWS para hospedar a aplicação, com os seguintes serviços:
+Utilizado a AWS para hospedar a aplicação, com os seguintes serviços:
 
 Amazon Elastic Container Registry (ECR): Repositório privado para armazenar as imagens Docker.
 
@@ -12,7 +12,7 @@ Amazon Application Load Balancer (ALB): Distribui o tráfego da web e gerencia o
 
 Amazon CloudWatch: Para coletar logs, métricas e monitoramento.
 
-Configuramos dois ambientes separados, staging e production, cada um com seu próprio cluster ECS, serviço e repositório de imagem ECR.
+Configurado dois ambientes separados, staging e production, cada um com seu próprio cluster ECS, serviço e repositório de imagem ECR.
 
 ✅ 2. Deploy da Aplicação Fictícia
 A aplicação é uma API Node.js simples com uma única rota, /status, que retorna uma resposta JSON para indicar que está ativa.
@@ -25,9 +25,6 @@ A aplicação foi containerizada com o Dockerfile para garantir um ambiente de e
 
 ✅ 3. Pipeline CI/CD Completo (GitHub Actions)
 O pipeline de CI/CD é gerenciado pelo GitHub Actions e é acionado por pushes nas branches main e staging.
-
-Diagrama de Fluxo de CI/CD:
-!(https://i.imgur.com/KqW42pM.png)
 
 Descrição do Fluxo:
 
@@ -44,7 +41,7 @@ Deploy para Staging: A task definition do ECS é atualizada para usar a nova ima
 Deploy para Produção: O deploy para produção é um passo separado que requer aprovação manual via o ambiente de proteção do GitHub. Isso garante que o código tenha sido totalmente testado no ambiente de staging antes de ir para produção.
 
 ✅ 4. Segurança como Pilar
-Gerenciamento de Secrets: Utilizamos o GitHub Secrets para armazenar as credenciais da AWS (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION). Isso garante que as credenciais não estejam expostas no código. Em um ambiente de produção real, a melhor prática seria usar o OpenID Connect (OIDC) para que o GitHub Actions assuma uma role de IAM temporária, eliminando a necessidade de credenciais de longo prazo.
+Utilizado o OpenID Connect (OIDC) para que o GitHub Actions assuma uma role de IAM temporária, eliminando a necessidade de credenciais de longo prazo.
 
 HTTPS/TLS: O Application Load Balancer na AWS é configurado para gerenciar certificados SSL (via AWS Certificate Manager - ACM), garantindo que todo o tráfego externo para a aplicação seja criptografado com HTTPS.
 
@@ -81,7 +78,7 @@ Clique em "Update" e selecione a task definition anterior na lista de revisões.
 Confirme a atualização do serviço. O ECS irá então substituir os containers problemáticos pela versão estável anterior.
 
 ✅ 7. Checklist de Segurança Aplicado
-[x] Gerenciamento de segredos via GitHub Secrets.
+[x] Utilização de OICD
 
 [x] Comunicação via HTTPS com certificado SSL.
 
@@ -92,10 +89,9 @@ Confirme a atualização do serviço. O ECS irá então substituir os containers
 [x] Logs da aplicação centralizados no CloudWatch.
 
 📝 Registro de Erros e Decisões
-Escolha do Fargate: Decidimos usar o AWS Fargate em vez de EC2 ou Lightsail para simplificar a gestão de infraestrutura. Ele abstrai a complexidade do gerenciamento de servidores, permitindo que a equipe se concentre no pipeline e na aplicação.
+Escolha do Fargate: 
+Decidido usar o AWS Fargate em vez de EC2 ou Lightsail para simplificar a gestão de infraestrutura. Ele abstrai a complexidade do gerenciamento de servidores, permitindo que a equipe se concentre no pipeline e na aplicação.
 
 Fluxo com branch main: A decisão de ter o deploy para staging no push para a main branch foi tomada para garantir que o ambiente de staging esteja sempre sincronizado com o código principal. O deploy para production é separado para garantir a devida validação.
 
-Automação vs. Manual: O deploy para produção é intencionalmente semi-automatizado (com aprovação manual) para que uma pessoa da equipe possa validar o staging e dar a aprovação final.
-
-Uso de GitHub Secrets: Para este desafio, usamos o GitHub Secrets, mas a decisão técnica ideal para evitar credenciais de longo prazo seria usar o OIDC do GitHub Actions com roles de IAM.
+Dificuldade para utilizar as políticas IAM corretas.

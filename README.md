@@ -89,7 +89,8 @@ Confirme a atualização do serviço. O ECS irá então substituir os containers
 [x] Logs da aplicação centralizados no CloudWatch.
 
 📝 Registro de Erros e Decisões
-Escolha do Fargate: Decidimos usar o AWS Fargate em vez de EC2 ou Lightsail para simplificar a gestão de infraestrutura. Ele abstrai a complexidade do gerenciamento de servidores, permitindo que a equipe se concentre no pipeline e na aplicação.
+Escolha do Fargate: 
+Decidido usar o AWS Fargate em vez de EC2 ou Lightsail para simplificar a gestão de infraestrutura. Ele abstrai a complexidade do gerenciamento de servidores, permitindo que a equipe se concentre no pipeline e na aplicação.
 
 Fluxo com branch main: A decisão de ter o deploy para staging no push para a main branch foi tomada para garantir que o ambiente de staging esteja sempre sincronizado com o código principal. O deploy para production é separado para garantir a devida validação.
 
